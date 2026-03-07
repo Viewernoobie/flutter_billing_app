@@ -5,20 +5,30 @@ allprojects {
     }
 }
 
-val newBuildDir: Directory =
-    rootProject.layout.buildDirectory
-        .dir("../../build")
-        .get()
-rootProject.layout.buildDirectory.value(newBuildDir)
-
 subprojects {
-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
-    project.layout.buildDirectory.value(newSubprojectBuildDir)
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
+
+/*
+Fix untuk plugin lama Flutter yang belum punya namespace
+contoh: flutter_vibrate
+*/
 subprojects {
-    project.evaluationDependsOn(":app")
+    afterEvaluate {
+        if (project.hasProperty("android")) {
+            val androidExtension = project.extensions.findByName("android")
+            if (androidExtension is com.android.build.gradle.BaseExtension) {
+                if (androidExtension.namespace == null) {
+                    androidExtension.namespace = project.group.toString()
+                }
+            }
+        }
+    }
 }
 
 tasks.register<Delete>("clean") {
-    delete(rootProject.layout.buildDirectory)
+    delete(rootProject.buildDir)
 }
