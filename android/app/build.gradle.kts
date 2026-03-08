@@ -8,7 +8,7 @@ android {
     namespace = "com.example.billing_app"
     compileSdk = 36
     ndkVersion = "27.0.12077973"
-}
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -20,10 +20,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.billing_app"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-
-        // Fix untuk Flutter baru
+        minSdk = 21
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
     }
